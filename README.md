@@ -1,4 +1,4 @@
 # Arrays
 This is a standard array with hand made input and sort functions woopy
-Once you have created an array for example Array2 A(10);
-you have several commands you can use 
+The zip file contains all the files needed to open the application in Code Blocks
+I will post three seperate files a main and array class .h and .cpp files.
