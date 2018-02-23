@@ -35,6 +35,27 @@ class Array2
 
         int Partition(int, int);//this function is needed for the recursivity of the insertsort function
         void quickSort(int, int);// || same only for the quicksort function
+		
+		//NM: 021518 added swap and copy element function
+		void swapElement(int *inpArr, int index00, int index01);
+		//start is by index end is index + 1 aka length
+		void copyElements(int *inpArr, int *retArr, int inpStart, int inpEnd, int retStart);
+		
+		//NM: 021518 added different array generators
+		int *genRandArray(int length);
+		int *genSortArray(int length);
+
+		int *genRevSortArray(int length);
+		//NM: order is how much is ordered i.e. .9 is 90% ordered 10% unordered
+			//technically small chance that it may be more ordered
+		int *genPartSortArray(int length, double order);
+		
+		//NM: 021518 added wrappers for the generators
+		void initRandArray(int length);
+		void initSortArray(int length);
+
+		void initRevSortArray(int length);
+		void initPartSortArray(int length, double order);
 
     protected:
 

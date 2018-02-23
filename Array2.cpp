@@ -7,13 +7,26 @@
 
 using namespace std;
 
+//Constants for a possible interpretation of a reverse sorted array
+const int MAXINT = 2000000000;
+const int MININT = -2000000000;
+
+//NM: 021518 added null for delete checks
 Array2::Array2()
 {
+	arrData = NULL;
+	sizeOfArray = 0;
     //ctor
 }
+//NM: 021518 set pointer to NULL to check before delete
+	//double delete is undefined behavior
+		//wait... this is the destructor nvm
 Array2::~Array2()
 {
-    delete arrData;
+	if (arrData != NULL)
+		delete []arrData;
+	arrData = NULL;
+	sizeOfArray = 0;
 }
 Array2::Array2(int value)
 {
@@ -27,10 +40,13 @@ int Array2::getSize()
 {
     return sizeOfArray;
 }
+
+//NM: changed to be line
 void Array2::displayArray()
 {
     for(int i=0; i<sizeOfArray; i++)
-        cout<<arrData[i]<<endl;
+        cout<<arrData[i]<<" ";
+	cout << endl;
 }
 void Array2::addToTop(int value)
 {
@@ -262,3 +278,171 @@ void Array2::quickSort(int low, int high)
         quickSort(pi + 1, high);
     }
 }
+
+//NM: 021518 swaps 2 elements in an array
+void Array2::swapElement(int *inpArr, int index00, int index01)
+{
+	int temp;
+	temp = inpArr[index00];
+	inpArr[index00] = inpArr[index01];
+	inpArr[index01] = temp;
+}
+
+//NM: 021518 copies elements from one array to another; there are no safety checks
+void Array2::copyElements(int *inpArr, int *retArr, int inpStart, int inpEnd, int retStart) //start is by index end is like length
+{
+	int count00;
+	for (count00 = 0; count00 < (inpEnd - inpStart); count00++)
+	{
+		retArr[count00 + retStart] = inpArr[count00 + inpStart];
+	}
+}
+
+//NM: 021518 generates a random array of size length
+int* Array2::genRandArray(int length)
+{
+	int * retArr = new int [length];
+	for(int count00 = 0; count00 < length; count00++)
+	{
+		retArr[count00]=rand()%100;
+	}
+	return retArr;
+}
+
+//NM: 021518 generates a sorted array of size length
+int * Array2::genSortArray(int length)
+{
+	int count00, base;
+	int *retA;
+	retA = new int[length];
+	
+	base = rand() % 100;
+	for (count00 = 0; count00 < length; count00++)
+	{
+		retA[count00] = base;
+		base += rand() % 100;
+	}
+	
+	return retA;
+}
+
+//NM: 021518 generates a sorted array of size length
+int *Array2::genRevSortArray(int length)
+{
+	int count00, base;
+	int *retA;
+	retA = new int[length];
+	
+	base = MAXINT - (rand() % 100);
+	for (count00 = 0; count00 < length; count00++)
+	{
+		retA[count00] = base;
+		base -= (rand() % 100);
+		base /= length;
+		base *= (length-count00-1);
+	}
+	
+	return retA;
+}
+
+//NM: 021518 generates a partially sorted array of size length and sortedness order
+	//i.e. .9 is 90% sorted
+int *Array2::genPartSortArray(int length, double order)
+{
+	//generate a sorted array;
+	int count00, count01;
+	int base, top, unordered, temp00;
+	bool done;
+	int *retA, *arrB;
+	retA = new int[length];
+	
+	base = rand() % 100;
+	for (count00 = 0; count00 < length; count00++)
+	{
+		retA[count00] = base;
+		base += rand() % 100;
+	}
+	//Find the highest value
+	top = retA[count00-1];
+	//Figure out how many need to be out of order
+	unordered = double (length * (1.0-order)) + 0.5;
+	//cout << "length " << length << " order " << order << " unordered " << unordered << endl;
+	
+	arrB = new int[unordered];
+	//initialize array
+	for (count00 = 0; count00 < unordered; count00++)
+	{
+		arrB[count00] = -1;
+	}
+	//find the random indices
+	for (count00 = 0; count00 < unordered; count00++)
+	{
+		done = false;	
+		while (!done)
+		{
+			temp00 = rand() % length;
+			count01 = 0;
+			//search the array of random indices
+			while (temp00 != arrB[count01] && count01 < unordered)
+			{
+				count01++;
+			}
+			//if the random indice is not already in there
+				//add it
+			if (count01 >= unordered)
+			{
+				done = true;
+				arrB[count00] = temp00;
+			}
+		}
+	}
+	//modify these indices
+	for (count00 = 0; count00 < unordered; count00++)
+	{
+		//cout << "unordered " << count00 << endl;
+		temp00 = rand() % (top + 10);
+		//check to make sure the index is not ordered
+		while (temp00 <= retA[arrB[count00] + 1] && temp00 >= retA[arrB[count00] - 1] )
+			temp00 = rand() % (top + 10);
+		retA[arrB[count00]] = temp00;
+	}
+	
+	return retA;
+}
+
+//NM: 021518 wrappers for the array generators to initialize the classes own array
+void Array2::initRandArray(int length)
+{
+	if (arrData != NULL)
+		delete []arrData;
+		//NM: yeah, yeah you're probably going to give me flak for not setting it to null
+	sizeOfArray = length;
+	arrData = genRandArray(length);
+}
+void Array2::initSortArray(int length)
+{
+	if (arrData != NULL)
+		delete []arrData;
+	sizeOfArray = length;
+	arrData = genSortArray(length);
+}
+
+void Array2::initRevSortArray(int length)
+{
+	if (arrData != NULL)
+		delete []arrData;
+	sizeOfArray = length;
+	//arrData = genSortArray(length);
+	//NM: I'm assuming you're reverse is working
+	//reverseArray(); //NM: NVM zero trust, edit: it works
+	arrData = genRevSortArray(length);
+}
+void Array2::initPartSortArray(int length, double order)
+{
+	if (arrData != NULL)
+		delete []arrData;
+	sizeOfArray = length;
+	arrData = genPartSortArray(length, order);
+}
+
+//NM: end wrappers
