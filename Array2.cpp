@@ -246,23 +246,69 @@ void Array2::mergeSort(int l, int r)
         Merge(l, m, r);
     }
 }
+//NM: 022418 debugging for segmentation fault
+	//NM: 022418 your code isn't sorting; fixing it now
 int Array2::Partition(int low, int high)
 {
-    int pivot = arrData[high];    // pivot
-    int i = (low - 1);  // Index of smaller element
+    //int pivot = arrData[high];    // pivot
+	int mid, indexLow, indexHigh;
+	int pivot;
+	int count00;
+	
+	//NM: 022418 chose a better pivot
+	//pivot = arrData[(low + high) / 2];
+	mid = low + (high - low)/2;
+	pivot = arrData[mid];
+	
+	swapElement(arrData, low, mid);
+	
+	//NM: 022418 confusing variable name
+    //int i = (low - 1);  // Index of smaller element
+	indexLow = (low + 1);
+	indexHigh = high;
 
-    for (int j = low; j <= high- 1; j++)
+	/*
+	//NM: 022418 redoing all of this
+    for (count00 = low; count00 <= high - 1; count00++)
     {
         // If current element is smaller than or
         // equal to pivot
-        if (arrData[j] <= pivot)
+        if (arrData[count00] <= pivot)
+		//NM: 022418 previous condition wasn't correct
+		//if (arrData[count00] < arrData[high])
         {
-            i++;    // increment index of smaller element
-            Swap(&arrData[i], &arrData[j]);
+            index++;    // increment index of smaller element
+            //Swap(&arrData[index], &arrData[count00]);
+			swapElement(arrData, count00, index);
+			//low++;
         }
     }
-    Swap(&arrData[i + 1], &arrData[high]);
-    return (i + 1);
+    //Swap(&arrData[index + 1], &arrData[high]);
+	//swapElement(arrData, low, high);
+	swapElement(arrData, index + 1, high);
+    return (index + 1);
+	//return low;
+	*/
+	
+	while (indexLow <= indexHigh)
+	{
+		while (indexLow <= indexHigh && arrData[indexLow] <= pivot)
+		{
+			indexLow++;
+		}
+		while (indexLow <= indexHigh && arrData[indexHigh] > pivot)
+		{
+			indexHigh--;
+		}
+		if (indexLow < indexHigh)
+		{
+			swapElement(arrData, indexLow, indexHigh);
+		}
+	}
+	
+	swapElement(arrData, indexLow - 1, low);
+	
+	return indexLow - 1;
 }
 void Array2::quickSort(int low, int high)
 {
