@@ -14,7 +14,7 @@ do
 		length=0
 		case $count00 in
 			0)
-				sorttype="bub"
+				sorttype="sel"
 				#echo $sorttype
 				;;
 			1)
@@ -22,7 +22,7 @@ do
 				#echo $sorttype
 				;;
 			2)
-				sorttype="sel"
+				sorttype="bub"
 				#echo $sorttype
 				;;
 			3)
