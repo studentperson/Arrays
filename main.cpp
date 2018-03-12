@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 	switch(orderType)
 	{
 		case 0:
-			A.initRandArray(mainLength);
+			A.initDupsRandArray(mainLength);
 			break;
 		case 1:
 			A.initSortArray(mainLength);
@@ -114,6 +114,9 @@ int main(int argc, char *argv[])
 			break;
 		case 3:
 			A.initPartSortArray(mainLength, .9);
+			break;
+		case 4:
+			A.initRandArray(mainLength);
 			break;
 		default:
 			cout << "Error this order type does not exist." << endl;
@@ -142,7 +145,7 @@ int main(int argc, char *argv[])
 			break;
 		case 3:
 			time01 = high_resolution_clock::now();
-			A.mergeSort(0, A.getSize() - 1);
+			A.mergeSort();
 			time02 = high_resolution_clock::now();
 			break;
 		case 4:

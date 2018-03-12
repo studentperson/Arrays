@@ -182,8 +182,14 @@ void Array2::Swap(int *a, int *b)
     *a = *b;
     *b = t;
 }
-void Array2:: Merge(int l, int m, int r)
-{//l - left m - mid r - right
+
+//NM: 031118 code not working; fixing
+	//NM: modified from generic merge to be specific to this class
+void Array2:: Merge(int left, int lEnd, int right, int rEnd)
+{
+	//NM: 03/11/18 not working using my implementation
+	/*
+	//l - left m - mid r - right
     int i, j , k;
     int n1 = m - l + 1;//size of temporary arrays
     int n2 =  r - m;
@@ -229,10 +235,59 @@ void Array2:: Merge(int l, int m, int r)
         j++;
         k++;
     }
-
+	*/
+	
+	int lIndex, rIndex, sIndex;
+	int sortedLength, count00;
+	int *sortedArr;
+	lIndex = left;
+	rIndex = right;
+	sIndex = 0;
+	//sortedArr = randomArray((lEnd - left) + (rEnd - right));
+	sortedLength = (lEnd - left) + (rEnd - right);
+	sortedArr = new int [sortedLength];
+	while (lIndex < lEnd && rIndex < rEnd)
+	{
+		if(arrData[lIndex] < arrData[rIndex])
+		{
+			sortedArr[sIndex] = arrData[lIndex];
+			sIndex++;
+			lIndex++;
+		}
+		else
+		{
+			sortedArr[sIndex] = arrData[rIndex];
+			sIndex++;
+			rIndex++;
+		}
+	}
+	while (lIndex < lEnd)
+	{
+		sortedArr[sIndex] = arrData[lIndex];
+		sIndex++;
+		lIndex++;
+	}
+	while (rIndex < rEnd)
+	{
+		sortedArr[sIndex] = arrData[rIndex];
+		sIndex++;
+		rIndex++;
+	}
+	//return sortedArr;
+	for (count00 = 0; count00 < sortedLength; count00++)
+	{
+		arrData[left] = sortedArr[count00];
+		left++;
+	}
+	
+	delete []sortedArr;
+	
 }
-void Array2::mergeSort(int l, int r)
+
+//NM: 031118 code not working; fixing
+void Array2::mergeSort()
 {
+	/*
     if (l < r)
     {
         // Same as (l+r)/2, but avoids overflow for
@@ -245,7 +300,24 @@ void Array2::mergeSort(int l, int r)
 
         Merge(l, m, r);
     }
+	*/
+	msHelper(0, sizeOfArray);
 }
+
+//NM: 031118 code not working; fixing
+void Array2::msHelper(int left, int right)
+{
+	int middle;
+	if (left < right-1)
+	{
+		//middle = (left + right)/2;
+		middle = left + (right - left)/2;
+		msHelper(left, middle);
+		msHelper(middle, right);
+		Merge(left, middle, middle, right);
+	}
+}
+
 //NM: 022418 debugging for segmentation fault
 	//NM: 022418 your code isn't sorting; fixing it now
 int Array2::Partition(int low, int high)
@@ -292,6 +364,7 @@ int Array2::Partition(int low, int high)
 	
 	while (indexLow <= indexHigh)
 	{
+		/*
 		while (indexLow <= indexHigh && arrData[indexLow] <= pivot)
 		{
 			indexLow++;
@@ -300,6 +373,23 @@ int Array2::Partition(int low, int high)
 		{
 			indexHigh--;
 		}
+		*/
+		
+		//NM: this is better
+			//NM: 031118 created this to handle the case a random array with
+				//lots of duplicates
+		while (indexLow <= indexHigh && arrData[indexLow] <= pivot)
+		{
+			indexLow++;
+			if(arrData[indexHigh] >= pivot)
+				indexHigh--;
+		}
+		while (indexLow <= indexHigh && arrData[indexHigh] > pivot)
+		{
+			indexHigh--;
+		}
+		
+		
 		if (indexLow < indexHigh)
 		{
 			swapElement(arrData, indexLow, indexHigh);
@@ -345,7 +435,22 @@ void Array2::copyElements(int *inpArr, int *retArr, int inpStart, int inpEnd, in
 }
 
 //NM: 021518 generates a random array of size length
+	//NM: 031118 the duplicates were throwing off quicksort
+		//less duplicates now
 int* Array2::genRandArray(int length)
+{
+	int * retArr = new int [length];
+	for(int count00 = 0; count00 < length; count00++)
+	{
+		retArr[count00]=rand();
+	}
+	return retArr;
+}
+
+//NM: 031118 generates a random array of size length
+	//NM: 031118 since it is mod 100 there will be lots of dups of
+		//size 1000 or greater
+int* Array2::genDupsRandArray(int length)
 {
 	int * retArr = new int [length];
 	for(int count00 = 0; count00 < length; count00++)
@@ -465,6 +570,16 @@ void Array2::initRandArray(int length)
 	sizeOfArray = length;
 	arrData = genRandArray(length);
 }
+
+//NM: 031118 to handle lots of duplicates case
+void Array2::initDupsRandArray(int length)
+{
+	if (arrData != NULL)
+		delete []arrData;
+	sizeOfArray = length;
+	arrData = genDupsRandArray(length);
+}
+
 void Array2::initSortArray(int length)
 {
 	if (arrData != NULL)

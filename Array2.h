@@ -30,8 +30,11 @@ class Array2
         void Swap(int*, int*);
 
         int* operator+(const Array2&) const;
-        void Merge(int, int, int);
-        void mergeSort(int, int);
+		//NM: 031118 msHelper and Merge do not include the index they just specify length
+			//i.e. End and right (0, 6) is index 0 to index 5
+        void Merge(int left, int lEnd, int right, int rEnd);//NM: 03/11/18 not working using my implementation
+        void mergeSort();
+		void msHelper(int left, int right);
 
         int Partition(int, int);//this function is needed for the recursivity of the insertsort function
         void quickSort(int, int);// || same only for the quicksort function
@@ -42,7 +45,9 @@ class Array2
 		void copyElements(int *inpArr, int *retArr, int inpStart, int inpEnd, int retStart);
 		
 		//NM: 021518 added different array generators
-		int *genRandArray(int length);
+		int *genRandArray(int length); //NM: 031118 lots of duplicates were throwing off quicksort
+		int *genDupsRandArray(int length); //NM: 031118 lots of dups case now its own function
+		
 		int *genSortArray(int length);
 
 		int *genRevSortArray(int length);
@@ -52,6 +57,7 @@ class Array2
 		
 		//NM: 021518 added wrappers for the generators
 		void initRandArray(int length);
+		void initDupsRandArray(int length);
 		void initSortArray(int length);
 
 		void initRevSortArray(int length);
