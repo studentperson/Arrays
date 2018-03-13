@@ -159,6 +159,9 @@ void Array2::insertSort()
 }
 void Array2::bubbleSort()
 {
+	/*
+	//NM: 031218 code is unoptimized
+		//optimizing code
     bool bswap = false;
     while (bswap == false){
         int itt = 0;
@@ -175,6 +178,25 @@ void Array2::bubbleSort()
         if (itt == 0)
             bswap = true;
     }
+	*/
+	int count00, count01;
+	bool done;
+	count00 = 0;
+	done = false;
+	//NM: 031218 code should be optimized
+	while (count00 < sizeOfArray - 1 && !done)
+	{
+		done = true;
+		for (count01 = 0; count01 < sizeOfArray - 1 - count00; count01++)
+		{
+			if (arrData[count01] > arrData[count01 + 1])
+			{
+				swapElement(arrData, count01, count01 + 1);
+				done = false;
+			}
+		}
+		count00++;
+	}
 }
 void Array2::Swap(int *a, int *b)
 {
