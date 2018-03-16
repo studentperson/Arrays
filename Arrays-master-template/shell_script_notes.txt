@@ -1,0 +1,97 @@
+Contents:
+chmod use
+concatenate example
+math examples
+
+chmod is used to make a bash file an executable
+chmod parameter scriptname
+chmod changes permissions of files and directories
+
+u=rwx
+user can read write execute
+group can read execute
+g = rx
+
+others can read
+o = r
+
+754
+full, read execute, read
+
+4 is read
+2 is write
+1 is execute
+0 is no permission
+7 = 4 + 2 + 1
+first is user
+second is group
+third is others
+
+i.e.
+chmod 754 chmod
+
+echo writes arguments to standard output
+
+
+CONCATENATE
+
+this is an example of concatenating a number and a string
+for number in {1..10}
+
+do
+
+echo "Hello"$number
+
+done
+
+create a file with a variable
+touch "${USER_NAME}_file"
+
+
+
+MATH
+
+expr
+
+$ z=5
+$ z=`expr $z+1`   ---- Need spaces around + sign.
+$ echo $z
+5+1
+$ z=`expr $z + 1`
+$ echo $z
+6
+
+$ let z=5
+$ echo $z
+5
+$ let z=$z+1
+$ echo $z
+6
+$ let z=$z + 1     # --- Spaces around + sign are bad with let
+-bash: let: +: syntax error: operand expected (error token is "+")
+
+$let z=z+1         # --- look Mom, no $ to read a variable.
+$echo $z
+7
+
+$ ((e=5))
+$ echo $e
+5
+$ (( e = e + 3 ))
+$ echo $e
+8
+$ (( e=e+4 ))  # -- spaces or no spaces, it doesn't matter
+$ echo $e
+12
+
++ - ++ -- * / % ** 
+
+#!/bin/bash
+# This is a comment
+for number in {1..200}
+do
+((h = number / 100))
+((t = number / 10 % 10))
+((o = number % 10 ))
+echo "Hello"$h$t$o
+done
