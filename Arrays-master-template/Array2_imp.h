@@ -175,26 +175,7 @@ T Array2<T>::insertSort()
 template <class T>
 T Array2<T>::bubbleSort()
 {
-	/*
-	//NM: 031218 code is unoptimized
-		//optimizing code
-    bool bswap = false;
-    while (bswap == false){
-        int itt = 0;
-        for (int i = 1; i<sizeOfArray; i++){
 
-            if (arrData[i] < arrData[i-1]){
-                int temp;
-                temp = arrData[i-1];
-                arrData[i-1] = arrData[i];// I can probably go through and replace all these swaps
-                arrData[i] = temp;        // with a swap function. swap(&arrData[i], &arrData[i-1]
-                itt++;
-            }
-        }
-        if (itt == 0)
-            bswap = true;
-    }
-	*/
 	int count00, count01;
 	bool done;
 	count00 = 0;
@@ -228,57 +209,6 @@ void Array2<T>::Swap(T *a, T *b)
 template<class T>
 void Array2<T>:: Merge(int left, int lEnd, int right, int rEnd)
 {
-	//NM: 03/11/18 not working using my implementation
-	/*
-	//l - left m - mid r - right
-    int i, j , k;
-    int n1 = m - l + 1;//size of temporary arrays
-    int n2 =  r - m;
-
-    //creates temporary arrays
-    int L[n1], R[n2];
-    //copy all the data into the temporary arrays
-    for (i = 0; i < n1; i++)
-        L[i] = arrData[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arrData[m + 1+ j];
-    //now we take the temporary arrays and merge them back together sorted.
-    i = 0; // Initial index of first temp array
-    j = 0; // Initial index of second temp array
-    k = l; // Initial index of merged temp array
-
-    while (i < n1 && j < n2)
-    {
-        if (L[i] <= R[j])
-        {
-            arrData[k] = L[i];
-            i++;
-        }
-        else
-        {
-            arrData[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-    //handle any extra variables
-
-    while (i < n1)
-    {
-        arrData[k] = L[i];
-        i++;
-        k++;
-    }
-
-    while (j < n2)
-    {
-        arrData[k] = R[j];
-        j++;
-        k++;
-    }
-	*/
-	
-	
 	int lIndex, rIndex, sIndex;
 	int sortedLength, count00;
 	T *sortedArr;
@@ -330,20 +260,7 @@ void Array2<T>:: Merge(int left, int lEnd, int right, int rEnd)
 template<class T>
 void Array2<T>::mergeSort()
 {
-	/*
-    if (l < r)
-    {
-        // Same as (l+r)/2, but avoids overflow for
-        // large l and h
-        int m = l+(r-l)/2;
 
-        // Sort first and second halves
-        mergeSort(l, m);
-        mergeSort(m+1, r);
-
-        Merge(l, m, r);
-    }
-	*/
 	msHelper(0, sizeOfArray);
 }
 
@@ -383,42 +300,9 @@ int Array2<T>::Partition(int low, int high)
     //int i = (low - 1);  // Index of smaller element
 	indexLow = (low + 1);
 	indexHigh = high;
-
-	/*
-	//NM: 022418 redoing all of this
-    for (count00 = low; count00 <= high - 1; count00++)
-    {
-        // If current element is smaller than or
-        // equal to pivot
-        if (arrData[count00] <= pivot)
-		//NM: 022418 previous condition wasn't correct
-		//if (arrData[count00] < arrData[high])
-        {
-            index++;    // increment index of smaller element
-            //Swap(&arrData[index], &arrData[count00]);
-			swapElement(arrData, count00, index);
-			//low++;
-        }
-    }
-    //Swap(&arrData[index + 1], &arrData[high]);
-	//swapElement(arrData, low, high);
-	swapElement(arrData, index + 1, high);
-    return (index + 1);
-	//return low;
-	*/
 	
 	while (indexLow <= indexHigh)
 	{
-		/*
-		while (indexLow <= indexHigh && arrData[indexLow] <= pivot)
-		{
-			indexLow++;
-		}
-		while (indexLow <= indexHigh && arrData[indexHigh] > pivot)
-		{
-			indexHigh--;
-		}
-		*/
 		
 		//NM: this is better
 			//NM: 031118 created this to handle the case a random array with

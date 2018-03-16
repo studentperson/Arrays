@@ -52,54 +52,6 @@ int main(int argc, char *argv[])
 
 	//NM: for display purposes
 	cout.precision(14);
-
-	/*
-
-	//NM: for testing chrono library
-	time01 = high_resolution_clock::now();
-    //function();
-	for (count00 = 0; count00 < 10; count00++)
-	{
-		cout << rand()%100 << " ";
-	}
-	cout << endl;
-    time02 = high_resolution_clock::now();
-	duration = duration_cast<microseconds>( time02 - time01 ).count();
-	//cout << duration << endl;
-	*/
-
-	/*
-	//NM: testing array generation
-    cout<<"Size :"<<A.getSize()<<endl;
-    A.displayArray();
-    cout<< "Now sort: "<<endl;
-    //A.selectSort();
-    //A.insertSort();
-    //A.bubbleSort();
-    //A.mergeSort(0, A.getSize());
-    A.quickSort(0, A.getSize());
-    A.displayArray();
-
-	A.initSortArray(ARRLEN);
-	A.displayArray();
-	A.reverseArray();
-	A.displayArray();
-	//void reverseArray();
-	//void initSortArray(int length);
-	A.initSortArray(ARRLEN + 1);
-	A.displayArray();
-	A.reverseArray();
-	A.displayArray();
-
-	A.initRandArray(ARRLEN + 1);
-	A.displayArray();
-
-	A.initRevSortArray(ARRLEN + 1);
-	A.displayArray();
-
-	A.initPartSortArray(ARRLEN + 1, .9);
-	A.displayArray();
-	*/
 	
 	//NM: generate the array
 	switch(orderType)
@@ -133,8 +85,6 @@ int main(int argc, char *argv[])
 		A.arrData[i] += .5;
 	}
 	*/
-	
-	
 	
 	//A.displayArray(); //NM: for debugging
 
