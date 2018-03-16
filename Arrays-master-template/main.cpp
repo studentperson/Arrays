@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "Array2.h"
+#include "Array2_imp.h"
 #include <chrono>
 
 using namespace std;
@@ -15,7 +16,7 @@ const int ARRLEN = 20;
 	//order type: 0 random, 1 sorted, 2 reverse sorted, 3 partial sorted (90% sorted)
 int main(int argc, char *argv[])
 {
-    Array2 A(10);
+    Array2 <double>A(10);
 
 	int index, mainLength, sortType, orderType;
 	int count00;
@@ -52,6 +53,7 @@ int main(int argc, char *argv[])
 	//NM: for display purposes
 	cout.precision(14);
 
+	/*
 
 	//NM: for testing chrono library
 	time01 = high_resolution_clock::now();
@@ -64,7 +66,7 @@ int main(int argc, char *argv[])
     time02 = high_resolution_clock::now();
 	duration = duration_cast<microseconds>( time02 - time01 ).count();
 	//cout << duration << endl;
-
+	*/
 
 	/*
 	//NM: testing array generation
@@ -98,7 +100,7 @@ int main(int argc, char *argv[])
 	A.initPartSortArray(ARRLEN + 1, .9);
 	A.displayArray();
 	*/
-
+	
 	//NM: generate the array
 	switch(orderType)
 	{
@@ -123,6 +125,17 @@ int main(int argc, char *argv[])
 			exit(0);
 			break;
 	};
+	
+	/*
+	//NM: Testing Double Functionality
+	for (int i = 0; i < A.sizeOfArray; i++)
+	{
+		A.arrData[i] += .5;
+	}
+	*/
+	
+	
+	
 	//A.displayArray(); //NM: for debugging
 
 	//NM: sort the array
@@ -163,6 +176,7 @@ int main(int argc, char *argv[])
 	//NM: print the time it took
 	duration = duration_cast<microseconds>( time02 - time01 ).count();
 	cout << duration/1e6 << endl; //NM: in seconds
+	
 
     return 0;
 }
