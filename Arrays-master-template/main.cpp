@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include "Array2.h"
-#include "Array2_imp.h"
+#include "Array2.cpp"
 #include <chrono>
 
 using namespace std;
@@ -85,6 +85,7 @@ int main(int argc, char *argv[])
 		A.arrData[i] += .5;
 	}
 	*/
+	
 	
 	//A.displayArray(); //NM: for debugging
 
